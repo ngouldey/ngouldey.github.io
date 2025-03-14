@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicholas Gouldey - Music</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .music-timeline {
+            margin: 2rem 0;
+            padding: 2rem;
+            border-left: 3px solid var(--electric-blue);
+        }
+
+        .album-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 16, 240, 0.2);
+            transition: all 0.3s;
+        }
+
+        .album-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 25px var(--neon-pink);
+        }
+
+        .listen-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            margin-top: 1rem;
+            background: var(--electric-blue);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .listen-button:hover {
+            background: var(--neon-pink);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+
+    <aside class="sidebar neon-pulse">
+        <img src="your-profile-image.jpg" alt="Profile" class="profile-img">
+        <nav>
+            <a href="index.html">about</a>
+            <a href="resume.html">resume</a>
+            <a href="#music">music</a>
+            <a href="writing.html">writing</a>
+        </nav>
+    </aside>
+
+    <main>
+        <section id="music">
+            <h1>... with "the sickly hecks":</h1>
+            <p class="neon-pink">2016 - 2020 | guitarist and co-songwriter</p>
+
+            <div class="music-timeline">
+                <div class="album-card">
+                    <h2 class="neon-yellow">Try and Fail</h2>
+                    <p class="neon-blue">Album Release: 2021</p>
+                    <p class="neon-pink">lead guitar, co-writer</p>
+                    <a href="https://www.youtube.com/playlist?list=OLAK5uy_lb3srGkRkp9hy7U37CamtYSHhmyrAvgK8"
+                       class="listen-button"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        LISTEN ON YOUTUBE
+                    </a>
+                </div>
+
+                <div class="album-card">
+                    <h2 class="neon-yellow">Baphomet's Baby</h2>
+                    <p class="neon-blue">Album Release: 2019</p>
+                    <p class="neon-pink">lead guitar, co-writer</p>
+                    <a href="https://www.youtube.com/playlist?list=OLAK5uy_ktQYMyT5jIBwn3e4FD7nc3uMP1TOwZfxw"
+                       class="listen-button"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        LISTEN ON YOUTUBE
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
