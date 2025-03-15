@@ -6,6 +6,9 @@
     <title>ng / resume</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        :root {
+            --neon-pink: #FF10F0;
+        }
         body {
             background: #000000;
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -20,11 +23,11 @@
             margin-left: 250px;
             padding: 3rem;
             background: #1a1a1a;
-            box-shadow: 0 0 20px rgba(157, 0, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 16, 240, 0.2);
         }
 
         .resume-header {
-            border-bottom: 2px solid #9d00ff;
+            border-bottom: 2px solid var(--neon-pink);
             padding-bottom: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -46,7 +49,7 @@
         }
 
         .section-title {
-            color: #9d00ff;
+            color: var(--neon-pink);
             border-bottom: 2px solid #333333;
             padding-bottom: 0.5rem;
             margin: 2rem 0 1.5rem;
@@ -73,7 +76,7 @@
         }
 
         .position {
-            color: #9d00ff;
+            color: var(--neon-pink);
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
@@ -93,7 +96,7 @@
 
         .accomplishments li::before {
             content: "▹";
-            color: #9d00ff;
+            color: var(--neon-pink);
             position: absolute;
             left: -1.2rem;
             font-size: 1rem;
@@ -113,7 +116,7 @@
             border-radius: 3px;
             text-align: center;
             font-size: 0.95rem;
-            border: 1px solid #9d00ff;
+            border: 1px solid var(--neon-pink);
         }
 
         @media (max-width: 768px) {
@@ -126,8 +129,8 @@
                 position: relative;
                 width: 100%;
                 height: auto;
-                border-bottom: 3px solid #9d00ff;
-                box-shadow: 0 10px 15px #9d00ff;
+                border-bottom: 3px solid var(--neon-pink);
+                box-shadow: 0 10px 15px var(--neon-pink);
             }
 
             .job-header {
