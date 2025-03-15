@@ -209,6 +209,12 @@ h1 {
     transform: translateX(5px);
 }
 
+.detail-block a.neon-blue {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--vapor-yellow);
+}
+
 /* media links */
 
 .media-links {
