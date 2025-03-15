@@ -11,60 +11,74 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <style>
-        .essay-container {
+        .writing-filters {
             margin: 2rem 0;
-            border-left: 3px solid var(--neon-pink);
-            padding-left: 2rem;
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--neon-pink);
         }
 
-        .essay-item {
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--electric-blue);
+            color: var(--electric-blue);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Michroma', sans-serif;
+            text-transform: lowercase;
+        }
+
+        .filter-btn.active {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+            color: var(--black);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .writing-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .writing-item {
             background: rgba(255, 255, 255, 0.03);
-            margin: 1.5rem 0;
-            padding: 1rem;
-            border: 1px solid var(--electric-blue);
+            border: 2px solid var(--electric-blue);
+            padding: 1.5rem;
             transition: all 0.3s;
         }
 
-        .essay-header {
+        .writing-item[data-category="essay"] {
+            border-color: var(--electric-blue);
+        }
+
+        .writing-item[data-category="poem"] {
+            border-color: var(--neon-pink);
+        }
+
+        .writing-header {
             cursor: pointer;
-            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .essay-header:hover {
-            background: rgba(0, 255, 255, 0.05);
-        }
-
-        .essay-title {
-            color: var(--neon-pink);
-            margin: 0;
-            font-size: 1.4rem;
-        }
-
-        .essay-date {
-            color: var(--electric-blue);
-            font-size: 0.9rem;
-        }
-
-        .essay-content {
+        .writing-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
-            padding: 0 1rem;
-            color: #ccc;
+            padding-top: 1rem;
         }
 
         .expand-icon {
             color: var(--vapor-yellow);
             font-size: 1.5rem;
-            margin-left: 1rem;
-        }
-
-        .essay-item.expanded {
-            border-color: var(--vapor-yellow);
-            box-shadow: 0 0 15px rgba(255, 240, 58, 0.2);
         }
     </style>
 </head>
@@ -83,35 +97,38 @@
 
     <main>
         <section id="writing">
-            <h1>writing</h1>
-            <p class="neon-blue">essays</p>
+            <div class="writing-filters">
+                <button class="filter-btn active" data-filter="all">all</button>
+                <button class="filter-btn" data-filter="essay">essays</button>
+                <button class="filter-btn" data-filter="poem">poems</button>
+            </div>
 
-            <div class="essay-container">
-                <!-- Essay 1 -->
-                <div class="essay-item">
-                    <div class="essay-header" onclick="toggleEssay(this)">
+            <div class="writing-grid">
+                <!-- essays -->
+                <div class="writing-item" data-category="essay">
+                    <div class="writing-header" onclick="toggleWriting(this)">
                         <div>
-                            <h2 class="essay-title">working example</h2>
-                            <p class="essay-date">march 2023</p>
+                            <h2 class="neon-blue">sample essay</h2>
+                            <p class="neon-pink">March 2025</p>
                         </div>
                         <span class="expand-icon">+</span>
                     </div>
-                    <div class="essay-content">
-                        <p>working example</p>
+                    <div class="writing-content">
+                        <p class="neon-yellow">essay sample text</p>
                     </div>
                 </div>
 
-                <!-- Essay 2 -->
-                <div class="essay-item">
-                    <div class="essay-header" onclick="toggleEssay(this)">
+                <!-- poems -->
+                <div class="writing-item" data-category="poem">
+                    <div class="writing-header" onclick="toggleWriting(this)">
                         <div>
-                            <h2 class="essay-title">working example</h2>
-                            <p class="essay-date">january 2024</p>
+                            <h2 class="neon-pink">sample poem</h2>
+                            <p class="neon-blue">March 2025</p>
                         </div>
                         <span class="expand-icon">+</span>
                     </div>
-                    <div class="essay-content">
-                        <p>working example</p>
+                    <div class="writing-content">
+                        <p class="neon-yellow">poem sample text</p>
                     </div>
                 </div>
             </div>
@@ -119,21 +136,29 @@
     </main>
 
     <script>
-        function toggleEssay(header) {
-            const essayItem = header.parentElement;
-            const content = essayItem.querySelector('.essay-content');
-            const icon = essayItem.querySelector('.expand-icon');
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
 
-            essayItem.classList.toggle('expanded');
+                document.querySelectorAll('.writing-item').forEach(item => {
+                    item.style.display = (filter === 'all' || item.dataset.category === filter) ?
+                        'block' : 'none';
+                });
+            });
+        });
+
+        function toggleWriting(header) {
+            const content = header.parentElement.querySelector('.writing-content');
+            const icon = header.querySelector('.expand-icon');
 
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
                 icon.textContent = '+';
-                content.setAttribute('aria-expanded', 'false');
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";
                 icon.textContent = '-';
-                content.setAttribute('aria-expanded', 'true');
             }
         }
     </script>
