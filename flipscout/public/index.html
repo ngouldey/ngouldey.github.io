@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FlipScout</title>
+  <meta name="description" content="Snap a thrift find to identify it and see resale value, sell-through and profit.">
+  <meta name="theme-color" content="#f6f5f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121311" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="FlipScout">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.6l1.2-1.8A1.5 1.5 0 0 1 10.5 3.5h3a1.5 1.5 0 0 1 1.2.7L15.9 6h1.6A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.5-2-3.5-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.5 2 1.5a7.6 7.6 0 0 0 0 3l-2 1.5 2 3.5 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M17 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M4 17l5-5 4 4 2.5-2.5L20 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 12.6V5a1.5 1.5 0 0 1 1.5-1.5h7.6a1.5 1.5 0 0 1 1 .4l7 7a1.5 1.5 0 0 1 0 2.2l-7.5 7.5a1.5 1.5 0 0 1-2.2 0l-7-7a1.5 1.5 0 0 1-.4-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.6" fill="currentColor"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <button class="icon-btn" id="backBtn" hidden aria-label="New scan"><svg><use href="#i-back"/></svg></button>
+    <div class="brand"><svg class="brand-mark"><use href="#i-tag"/></svg><span>FlipScout</span></div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="historyBtn" aria-label="History"><svg><use href="#i-clock"/></svg></button>
+      <button class="icon-btn" id="settingsBtn" aria-label="Settings"><svg><use href="#i-gear"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ SCAN ============ -->
+    <section id="scanView" class="view">
+      <div class="photos" id="photos"></div>
+      <button class="snap" id="snapBtn" type="button">
+        <svg><use href="#i-camera"/></svg>
+        <span class="snap-title">Snap the item</span>
+        <span class="snap-sub">Then add the label, tag or maker’s mark</span>
+      </button>
+      <div class="photo-actions">
+        <button class="text-btn" id="libraryBtn" type="button"><svg><use href="#i-photo"/></svg> Choose from library</button>
+      </div>
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+      <input type="file" id="libraryInput" accept="image/*" multiple hidden>
+
+      <div class="form-grid">
+        <label class="field">
+          <span class="field-label">Tag price</span>
+          <span class="money"><span>$</span><input id="priceInput" inputmode="decimal" autocomplete="off" placeholder="0.00"></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Notes <em>optional</em></span>
+          <input id="hintInput" autocomplete="off" placeholder="size, works, has box…">
+        </label>
+      </div>
+
+      <button class="primary" id="checkBtn" type="button" disabled>Check it</button>
+
+      <div class="divider"><span>or search by name</span></div>
+      <form class="text-search" id="textForm">
+        <input id="textInput" type="search" enterkeyhint="search" autocomplete="off" placeholder="e.g. Pyrex Butterprint 403 bowl">
+        <button type="submit">Search</button>
+      </form>
+      <p class="setup-hint" id="setupHint" hidden>Add your access code in <button class="link" data-open-settings>Settings</button> to start.</p>
+    </section>
+
+    <!-- ============ RESULTS ============ -->
+    <section id="resultView" class="view" hidden>
+      <ol class="progress" id="progress" aria-live="polite"></ol>
+      <div class="error-card" id="errorCard" hidden>
+        <p id="errorText"></p>
+        <button class="secondary" id="retryBtn" type="button">Try again</button>
+      </div>
+
+      <div class="verdict" id="verdict" hidden>
+        <div class="verdict-badge" id="verdictBadge"></div>
+        <div class="verdict-body">
+          <div class="verdict-profit" id="verdictProfit"></div>
+          <div class="verdict-reasons" id="verdictReasons"></div>
+        </div>
+      </div>
+
+      <article class="card id-card" id="idCard" hidden>
+        <div class="id-head">
+          <img class="id-thumb" id="idThumb" alt="">
+          <div>
+            <h1 class="id-name" id="idName"></h1>
+            <div class="chips" id="idChips"></div>
+          </div>
+        </div>
+        <p class="id-note" id="idNote"></p>
+        <div class="query-row">
+          <label class="sr-only" for="queryInput">eBay search</label>
+          <input id="queryInput" autocomplete="off" enterkeyhint="go">
+          <button class="secondary small" id="requeryBtn" type="button">Re-check</button>
+        </div>
+        <div class="alts" id="alts" hidden>
+          <span class="alts-label">Not it? Try:</span>
+          <div class="chips" id="altChips"></div>
+        </div>
+      </article>
+
+      <div class="stats" id="stats" hidden>
+        <article class="card stat" id="valueStat">
+          <span class="stat-label">Resale value</span>
+          <span class="stat-big" id="valueBig">–</span>
+          <span class="stat-sub" id="valueRange"></span>
+          <div class="range" id="valueBar" hidden><span class="range-fill"></span><span class="range-dot"></span></div>
+          <span class="stat-foot" id="valueBasis"></span>
+        </article>
+        <article class="card stat" id="strStat">
+          <span class="stat-label">Sell-through</span>
+          <span class="stat-big" id="strBig">–</span>
+          <span class="stat-sub" id="strSub"></span>
+          <div class="meter" id="strMeter" hidden><span></span></div>
+          <span class="stat-foot" id="strFoot"></span>
+        </article>
+      </div>
+
+      <article class="card sold-count" id="soldCountCard" hidden>
+        <div>
+          <strong>Get the exact sell-through</strong>
+          <p>Open eBay sold results (signed in), then type the number of results.</p>
+        </div>
+        <div class="sold-count-row">
+          <a class="secondary small" id="soldLink" target="_blank" rel="noopener">eBay sold <svg><use href="#i-ext"/></svg></a>
+          <input id="soldCountInput" inputmode="numeric" placeholder="# sold" aria-label="Number of sold results on eBay">
+        </div>
+      </article>
+
+      <article class="card" id="profitCard" hidden>
+        <h2>Profit</h2>
+        <div class="calc">
+          <label class="calc-row"><span>Sell for</span><span class="money small"><span>$</span><input id="sellInput" inputmode="decimal"></span></label>
+          <label class="calc-row"><span>Tag price</span><span class="money small"><span>$</span><input id="buyInput" inputmode="decimal" placeholder="0.00"></span></label>
+          <label class="calc-row"><span>Shipping you pay</span><span class="money small"><span>$</span><input id="shipInput" inputmode="decimal"></span></label>
+          <div class="calc-row"><span>eBay fees <small id="feeNote"></small></span><span class="calc-val" id="feesVal">–</span></div>
+          <div class="calc-row total"><span>Profit</span><span class="calc-val" id="profitVal">–</span></div>
+          <div class="calc-row"><span>Return on cost</span><span class="calc-val" id="roiVal">–</span></div>
+        </div>
+      </article>
+
+      <article class="card" id="insightCard" hidden>
+        <h2>Market notes</h2>
+        <div id="insights"></div>
+      </article>
+
+      <article class="card" id="compsCard" hidden>
+        <div class="tabs" role="tablist">
+          <button role="tab" class="tab" data-tab="sold" aria-selected="true">Sold <span class="count" id="soldTabCount"></span></button>
+          <button role="tab" class="tab" data-tab="active" aria-selected="false">Active <span class="count" id="activeTabCount"></span></button>
+          <button role="tab" class="tab" data-tab="matches" aria-selected="false">Look-alikes <span class="count" id="matchTabCount"></span></button>
+        </div>
+        <ul class="comps" id="compsList"></ul>
+      </article>
+
+      <article class="card" id="linksCard" hidden>
+        <h2>Check it yourself</h2>
+        <div class="links" id="links"></div>
+      </article>
+    </section>
+  </main>
+
+  <!-- ============ HISTORY ============ -->
+  <dialog class="sheet" id="historySheet" aria-labelledby="historyTitle">
+    <div class="sheet-head">
+      <h2 id="historyTitle">Recent scans</h2>
+      <button class="icon-btn" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button>
+    </div>
+    <ul class="history" id="historyList"></ul>
+    <p class="empty" id="historyEmpty">Nothing yet. Your scans are saved on this phone.</p>
+  </dialog>
+
+  <!-- ============ SETTINGS ============ -->
+  <dialog class="sheet" id="settingsSheet" aria-labelledby="settingsTitle">
+    <div class="sheet-head">
+      <h2 id="settingsTitle">Settings</h2>
+      <button class="icon-btn" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button>
+    </div>
+    <form id="settingsForm" class="settings">
+      <label class="field">
+        <span class="field-label">Access code</span>
+        <input id="sPasscode" type="password" autocomplete="current-password" placeholder="APP_PASSCODE from Netlify">
+      </label>
+      <div class="status-row">
+        <button class="secondary small" type="button" id="testBtn">Test connection</button>
+        <span id="statusText" class="muted"></span>
+      </div>
+
+      <h3>Selling costs</h3>
+      <div class="form-grid">
+        <label class="field"><span class="field-label">eBay fee %</span><input id="sFeePct" inputmode="decimal"></label>
+        <label class="field"><span class="field-label">Per-order fee $</span><input id="sPerOrder" inputmode="decimal"></label>
+        <label class="field"><span class="field-label">Promoted ad %</span><input id="sAdPct" inputmode="decimal"></label>
+        <label class="field"><span class="field-label">Default shipping $</span><input id="sShip" inputmode="decimal"></label>
+      </div>
+
+      <h3>When to buy</h3>
+      <div class="form-grid">
+        <label class="field"><span class="field-label">Min profit $</span><input id="sMinProfit" inputmode="decimal"></label>
+        <label class="field"><span class="field-label">Min return %</span><input id="sMinRoi" inputmode="decimal"></label>
+      </div>
+
+      <label class="toggle">
+        <input type="checkbox" id="sResearch">
+        <span><strong>Sold-price research</strong><br><small>Claude searches the web for recent sales. Slower (≈20–40 s) and costs more per scan.</small></span>
+      </label>
+
+      <button class="primary" type="submit">Save</button>
+      <button class="text-btn danger" type="button" id="clearHistoryBtn">Clear scan history</button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

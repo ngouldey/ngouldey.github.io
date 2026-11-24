@@ -1,0 +1,17 @@
+# Netlify settings for FlipScout.
+# If this folder lives inside a bigger repo, set the site's "Base directory" to `flipscout`.
+[build]
+  publish = "public"
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Never cache the app shell aggressively; the service worker handles offline.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(self)"
